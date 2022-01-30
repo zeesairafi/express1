@@ -1,21 +1,9 @@
-const express = require("express");
+const express = require("express")
+const app = express()
+const dataRoutes = require("./apis/data/routes")
 
-
-const data = require("./data")
-
-const app = express();
-
-
-
-app.get("/", (req, res) => {
-    console.log("hello");
-    res.json({song:"Hello"})
-}) 
-
-app.get("/data", (req, res) => {
-    res.json(data)
-})
-
+app.use(express.json())
+app.use("/apis/data", dataRoutes)
 
 
 
