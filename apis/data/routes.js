@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { fetchData, postData, deleteData } = require("./controllers");
+const { fetchData, getData, deleteData, createData } = require("./controllers");
 
 
 
@@ -8,10 +8,13 @@ const { fetchData, postData, deleteData } = require("./controllers");
 
 router.get("/", fetchData)
 
+router.get("/", getData)
 
+router.post("/", createData)
 
-router.post("/", postData)
+router.delete("/:dataId", deleteData)
 
-app.delete("/:dataId", deleteData)
+router.put("/:dataId", updateData)
+
 
 module.exports = router;
