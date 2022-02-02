@@ -1,7 +1,18 @@
+const Data = require("../../db/models/Data")
 
 
 
 
+
+exports.fetchData = async(dataId) => {
+    try{
+    const data = await Data.findById(dataId)
+    console.log(data);
+   
+    } catch (error){
+       console.log(error);
+    }
+}
 
 exports.gwtData = async (req, res) => {
     try{
@@ -9,15 +20,6 @@ exports.gwtData = async (req, res) => {
         res.json(dataArray)
     } catch (error){ 
         res.status(500).json({ message: error.message})
-    }
-}
-
-exports.fetchData = async(req, res) => {
-    try{
-    const data = await Data.find()
-    res.json(data)
-    } catch (error){
-        res.status(500).json({message: error.message})
     }
 }
 
@@ -39,30 +41,30 @@ exports.deleteData = async (req, res) => {
     try{
     const {dataId} = req.params
     // constdataId = req.params.dataId => same you can use any
-    const foundData = await Data.findByIdAndDelete({_id: dataId}) 
+    await Data.findByIdAndDelete({_id: req.foundData.id}) 
 
-    if (foundData) {
+    // if (foundData) {
     res.status(204).end()
-    } else {
-        res.status(404).json({message: "not found"})
-    }
+    // } else {
+    //     res.status(404).json({message: "not found"})
+    // }
     } catch (error) {
-        res.status(500).json({message: error.message})
+        next(error)
     }
 }
 
-exports.updateData =  async (req, res) => {
-    const {dataId} = req.params
+exports.updateData =  async (req, res, next) => {
+    // const {dataId} = req.params
     try{
-        const foundData = await Event.findByIdAndUpdate(
-            {_id: dataId}, 
+        const foundData = await Data.findByIdAndUpdate(
+            {_id: req.datas.id}, 
             req.body,
             { new: true, runValidators: true}
         )
-        if (foundData) res.json(foundData)
-        else res.status(404).end()
+       res.json(foundData)
+       
     } catch (error) {
-        res.status(500).json({message: error.message})
+        next(error)
     }
 }
 
